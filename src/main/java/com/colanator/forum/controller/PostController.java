@@ -1,29 +1,25 @@
 package com.colanator.forum.controller;
 
-import com.colanator.forum.model.PostRepository;
+import com.colanator.forum.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-
-@RestController
+@Controller
 public class PostController {
 
+	private PostService service;
+
 	@Autowired
-	private PostRepository repository;
+	public PostController(PostService service) {
+		this.service = service;
+	}
 
-	@RequestMapping("/")
-	public String getPostByName(@RequestParam(value="author") String author) {
-
-		final StringBuilder builder = new StringBuilder();
-
-		repository.findByAuthor(author).forEach(post -> {
-			builder.append(post.toString());
-		});
-
-		String concatenatedString = builder.toString();
-
-		return concatenatedString;
+	@GetMapping("/")
+	public String getPostByName(Model model, @RequestParam(value = "author", required = false, defaultValue = "anon") String author) {
+		model.addAttribute("author", service.findByAuthor(author));
+		return "post";
 	}
 }
