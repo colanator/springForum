@@ -14,15 +14,13 @@ public class PostService {
 		this.repository = repository;
 	}
 
-	public String findByAuthor(String author){
+	public String findPostsByAuthor(String author){
 		final StringBuilder builder = new StringBuilder();
 
 		repository.findByAuthor(author).forEach(post -> {
 			builder.append(post.toString());
 		});
 
-		String concatenatedString = builder.toString();
-
-		return concatenatedString;
+		return builder.toString();
 	}
 }

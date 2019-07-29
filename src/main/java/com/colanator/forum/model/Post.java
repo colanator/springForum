@@ -29,5 +29,4 @@ public class Post {
 				"Post[id=%d, author='%s', title='%s', body='%s']",
 				id, author, title, body);
 	}
-
 }

@@ -19,7 +19,7 @@ public class PostController {
 
 	@GetMapping("/")
 	public String getPostByName(Model model, @RequestParam(value = "author", required = false, defaultValue = "anon") String author) {
-		model.addAttribute("author", service.findByAuthor(author));
+		model.addAttribute("author", service.findPostsByAuthor(author));
 		return "post";
 	}
 }
