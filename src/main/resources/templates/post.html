@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Post</title>
-    <link href="/css/main.css" rel="stylesheet">
 </head>
 <body>
-<h2 class="title" th:text="${author}"></h2>
-<script src="/js/main.js"></script>
+
+<tr th:each="post: ${posts}">
+    <td th:text="${post.title}" />
+    <td th:text="${post.body}" />
+</tr>
+
+<ul>
+    <li th:each="post: ${posts}" th:text="${post.title}"></li>
+</ul>
+
 </body>
 </html>

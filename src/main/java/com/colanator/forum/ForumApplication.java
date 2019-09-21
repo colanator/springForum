@@ -28,6 +28,7 @@ public class ForumApplication {
 			repository.save(new Post("aapo", "MyPost2", "The Body2"));
 			repository.save(new Post("troll", "MyPost3", "The Body3"));
 			repository.save(new Post("anon", "MyPost4", "The Body4"));
+			repository.save(new Post("anon", "MyPost5", "The Body5"));
 		};
 	}
 

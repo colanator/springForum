@@ -12,8 +12,8 @@ public class Post {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	private String author;
-	private String title;
-	private String body;
+	public String title;
+	public String body;
 
 	protected Post() {}
 
