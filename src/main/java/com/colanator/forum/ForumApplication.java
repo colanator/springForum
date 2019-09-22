@@ -1,8 +1,6 @@
 package com.colanator.forum;
 
-import com.colanator.forum.model.Post;
-import com.colanator.forum.model.PostRepository;
-import com.colanator.forum.model.Reply;
+import com.colanator.forum.model.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -20,9 +18,9 @@ public class ForumApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(PostRepository repository) {
+	public CommandLineRunner demo(PostRepository postRepository, BoardRepository boardRepository) {
 		return (args) -> {
-			// save a post for testing
+			// save a post and board for testing
 			Post post = new Post("The Author", "The Title", "The Body");
 			post.getReplies().add(
 					new Reply("Reply Author", "Reply Body1")
@@ -30,9 +28,13 @@ public class ForumApplication {
 			post.getReplies().add(
 					new Reply("Reply Author", "Reply Body2")
 			);
-			repository.save(post);
+			Board board = new Board("Forum board");
+			board.getPosts().add(post);
+			boardRepository.save(board);
+			postRepository.save(post);
 			// print out saved posts
-			repository.findAll().forEach( it -> System.out.println(it.toString()) );
+			postRepository.findAll().forEach( it -> System.out.println(it.toString()) );
+			boardRepository.findAll().forEach( it -> System.out.println(it.toString()) );
 		};
 	}
 
