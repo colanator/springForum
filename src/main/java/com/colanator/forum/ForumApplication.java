@@ -37,5 +37,4 @@ public class ForumApplication {
 			boardRepository.findAll().forEach( it -> System.out.println(it.toString()) );
 		};
 	}
-
 }
