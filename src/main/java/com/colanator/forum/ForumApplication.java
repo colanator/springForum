@@ -1,6 +1,7 @@
 package com.colanator.forum;
 
 import com.colanator.forum.model.*;
+import com.colanator.forum.service.ContentService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -18,23 +19,17 @@ public class ForumApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(PostRepository postRepository, BoardRepository boardRepository) {
+	public CommandLineRunner demo(ContentService contentService, BoardRepository boardRepository) {
 		return (args) -> {
+
 			// save a post and board for testing
-			Post post = new Post("The Author", "The Title", "The Body");
-			post.getReplies().add(
-					new Reply("Reply Author", "Reply Body1")
-			);
-			post.getReplies().add(
-					new Reply("Reply Author", "Reply Body2")
-			);
 			Board board = new Board("Forum board");
-			board.getPosts().add(post);
+
 			boardRepository.save(board);
-			postRepository.save(post);
+			contentService.addPostToBoard(board.getId(), "The Title", "The Body", "The Author");
+
 			// print out saved posts
-			postRepository.findAll().forEach( it -> System.out.println(it.toString()) );
-			boardRepository.findAll().forEach( it -> System.out.println(it.toString()) );
+			contentService.listAllPostsOnBoard(board.getId()).forEach( it -> System.out.println(it.toString()) );
 		};
 	}
 }

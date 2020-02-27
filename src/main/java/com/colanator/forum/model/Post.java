@@ -41,6 +41,10 @@ public class Post {
 		return this.replies;
 	}
 
+	public Timestamp getCreationDate() {
+		return this.creationDate;
+	}
+
 	@Override
 	public String toString() {
 		return String.format(

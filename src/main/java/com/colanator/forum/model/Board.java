@@ -42,4 +42,8 @@ public class Board {
 				"Board[id=%d, name='%s', posts='%s']",
 				id, name, posts);
 	}
+
+	public Long getId(){
+		return this.id;
+	}
 }
