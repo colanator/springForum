@@ -13,8 +13,8 @@ import java.util.Optional;
 @Component
 public class ContentService {
 
-	private PostRepository postRepository;
-	private BoardRepository boardRepository;
+	private final PostRepository postRepository;
+	private final BoardRepository boardRepository;
 
 	@Autowired
 	public ContentService(PostRepository postRepository, BoardRepository boardRepository){
@@ -44,13 +44,19 @@ public class ContentService {
 		return null;
 	}
 
-	public void addPostToBoard (Long boardId, String title, String body, String author){
+	public boolean addPostToBoard (Long boardId, String title, String body, String author){
 		Optional<Board> board = boardRepository.findById(boardId);
 
 		if (board.isPresent()) {
-			board.get().getPosts().add(new Post(author, title, body));
-			boardRepository.save(board.get());
+			try {
+				board.get().getPosts().add(new Post(author, title, body));
+				boardRepository.save(board.get());
+				return true;
+			} catch (Exception e){
+				return false;
+			}
 		}
+		return false;
 	}
 
 	public Optional<Post> getPost (Long postId){
