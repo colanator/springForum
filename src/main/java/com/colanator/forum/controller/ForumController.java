@@ -34,9 +34,9 @@ public class ForumController {
 		}
 	}
 
-	@RequestMapping(value = "/boards/{id}", method = GET)
+	@RequestMapping(value = "/boards", method = GET)
 	@ResponseBody
-	public ResponseEntity<List<Post>> getPostsOnBoard(@PathVariable Long id) {
+	public ResponseEntity<List<Post>> getPostsOnBoard(@RequestParam Long id) {
 		List<Post> posts = contentService.listAllPostsOnBoard(id);
 		if(!posts.isEmpty()){
 			return ResponseEntity.ok(posts);
@@ -45,9 +45,9 @@ public class ForumController {
 		}
 	}
 
-	@RequestMapping(value = "/posts/{id}", method = GET)
+	@RequestMapping(value = "/posts", method = GET)
 	@ResponseBody
-	public ResponseEntity<Post> getPost(@PathVariable Long id) {
+	public ResponseEntity<Post> getPost(@RequestParam Long id) {
 		Post post;
 		Optional<Post> optionalPost = contentService.getPost(id);
 		if(optionalPost.isPresent()){
