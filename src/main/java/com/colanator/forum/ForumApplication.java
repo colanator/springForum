@@ -1,7 +1,7 @@
 package com.colanator.forum;
 
-import com.colanator.forum.model.Post;
-import com.colanator.forum.model.PostRepository;
+import com.colanator.forum.model.*;
+import com.colanator.forum.service.ContentService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -14,22 +14,22 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class ForumApplication {
 
-	private static final Logger log = LoggerFactory.getLogger(ForumApplication.class);
-
 	public static void main(String[] args) {
 		SpringApplication.run(ForumApplication.class, args);
 	}
 
 	@Bean
-	public CommandLineRunner demo(PostRepository repository) {
+	public CommandLineRunner demo(ContentService contentService, BoardRepository boardRepository) {
 		return (args) -> {
-			// save a couple of posts for testing
-			repository.save(new Post("colanator", "MyPost1", "The Body1"));
-			repository.save(new Post("aapo", "MyPost2", "The Body2"));
-			repository.save(new Post("troll", "MyPost3", "The Body3"));
-			repository.save(new Post("anon", "MyPost4", "The Body4"));
-			repository.save(new Post("anon", "MyPost5", "The Body5"));
+
+			// save a post and board for testing
+			Board board = new Board("Forum board");
+
+			boardRepository.save(board);
+			contentService.addPostToBoard(board.getId(), "The Title", "The Body", "The Author");
+
+			// print out saved posts
+			contentService.listAllPostsOnBoard(board.getId()).forEach( it -> System.out.println(it.toString()) );
 		};
 	}
-
 }
