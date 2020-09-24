@@ -64,17 +64,16 @@
             "post": {
                 "summary": "Create a new post",
                 "operationId": "createPost",
-                "parameters": [
-                    {
-                        "name": "post",
-                        "in": "query",
-                        "description": "Post to create",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/Post"
+                "requestBody": {
+                    "description": "Post to create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Post"
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "The created posts id",
