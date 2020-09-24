@@ -120,7 +120,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of posts on the requested board"
+                        "description": "List of posts on the requested board",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostArray"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "Board not found"
