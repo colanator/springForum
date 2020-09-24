@@ -34,7 +34,7 @@ public class ForumController {
 		}
 	}
 
-	@RequestMapping(value = "/boards", method = GET)
+	@RequestMapping(value = "/board", method = GET)
 	@ResponseBody
 	public ResponseEntity<List<Post>> getPostsOnBoard(@RequestParam Long id) {
 		List<Post> posts = contentService.listAllPostsOnBoard(id);
@@ -45,7 +45,7 @@ public class ForumController {
 		}
 	}
 
-	@RequestMapping(value = "/posts", method = GET)
+	@RequestMapping(value = "/post", method = GET)
 	@ResponseBody
 	public ResponseEntity<Post> getPost(@RequestParam Long id) {
 		Post post;
@@ -58,7 +58,7 @@ public class ForumController {
 		}
 	}
 
-	@RequestMapping(value = "/posts", method = POST)
+	@RequestMapping(value = "/post", method = POST)
 	public ResponseEntity<String> createPost(@RequestBody PostDTO postDto) {
 		ResponseEntity<String> result;
 		Long boardId = postDto.getBoardId();
