@@ -1,0 +1,82 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "0.0.1",
+        "title": "SpringForum"
+    },
+    "servers": [
+        {
+            "url": "http://localhost/",
+            "description": "Development server",
+            "variables": {
+                "port": {
+                    "enum": [
+                        "8008",
+                        "8080"
+                    ],
+                    "default": "8080"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/post": {
+            "get": {
+                "summary": "List all posts on a Board",
+                "operationId": "listAllPostsOnBoard",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID of the board",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of posts on the requested board"
+                    },
+                    "404": {
+                        "description": "Board not found"
+                    },
+                    "default": {
+                        "description": "Unspecified error"
+                    }
+                }
+            }
+        },
+        "/board": {
+            "post": {
+                "summary": "List all posts on a Board",
+                "operationId": "listAllPostsOnBoard",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID of the board",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of posts on the requested board"
+                    },
+                    "404": {
+                        "description": "Board not found"
+                    },
+                    "default": {
+                        "description": "Unspecified error"
+                    }
+                }
+            }
+        }
+    }
+}
