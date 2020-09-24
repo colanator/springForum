@@ -42,7 +42,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Post"
+                                    "$ref": "#/components/schemas/PostWithId"
                                 }
                             }
                         }
@@ -123,7 +123,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PostArray"
+                                    "$ref": "#/components/schemas/PostArrayWithIds"
                                 }
                             }
                         }
@@ -140,6 +140,35 @@
     },
     "components": {
         "schemas": {
+            "PostArrayWithIds": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/PostWithId"
+                }
+            },
+            "PostWithId": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "author"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 0
+                    },
+                    "author": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "body": {
+                        "type": "string"
+                    }
+                }
+            },
             "PostArray": {
                 "type": "array",
                 "items": {
@@ -153,11 +182,6 @@
                     "author"
                 ],
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "minimum": 0
-                    },
                     "author": {
                         "type": "string"
                     },
