@@ -150,7 +150,8 @@
                 "type": "object",
                 "required": [
                     "id",
-                    "author"
+                    "author",
+                    "title"
                 ],
                 "properties": {
                     "id": {
@@ -178,7 +179,7 @@
             "Post": {
                 "type": "object",
                 "required": [
-                    "id",
+                    "title",
                     "author"
                 ],
                 "properties": {
