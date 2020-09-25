@@ -38,7 +38,7 @@ public class ForumController {
 	@ResponseBody
 	public ResponseEntity<List<Post>> getPostsOnBoard(@RequestParam Long id) {
 		List<Post> posts = contentService.listAllPostsOnBoard(id);
-		if(!posts.isEmpty()){
+		if(posts != null && !posts.isEmpty()){
 			return ResponseEntity.ok(posts);
 		} else {
 			return ResponseEntity.notFound().build();
@@ -66,9 +66,9 @@ public class ForumController {
 		String body = postDto.getBody();
 		String author = postDto.getAuthor();
 
-		boolean success = contentService.addPostToBoard(boardId, title, body, author);
-		if (success) {
-			result = ResponseEntity.ok().build();
+		Long success = contentService.addPostToBoard(boardId, title, body, author);
+		if (success != null) {
+			result = ResponseEntity.ok(success.toString());
 		} else {
 			result = ResponseEntity.notFound().build();
 		}

@@ -44,19 +44,21 @@ public class ContentService {
 		return null;
 	}
 
-	public boolean addPostToBoard (Long boardId, String title, String body, String author){
+	public Long addPostToBoard (Long boardId, String title, String body, String author){
 		Optional<Board> board = boardRepository.findById(boardId);
 
 		if (board.isPresent()) {
 			try {
-				board.get().getPosts().add(new Post(author, title, body));
+				Post post = new Post(author, title, body);
+				postRepository.save(post);
+				board.get().getPosts().add(post);
 				boardRepository.save(board.get());
-				return true;
+				return post.getId();
 			} catch (Exception e){
-				return false;
+				return null;
 			}
 		}
-		return false;
+		return null;
 	}
 
 	public Optional<Post> getPost (Long postId){
