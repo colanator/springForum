@@ -17,18 +17,18 @@ public class ContentService {
 	private final BoardRepository boardRepository;
 
 	@Autowired
-	public ContentService(PostRepository postRepository, BoardRepository boardRepository){
+	public ContentService(PostRepository postRepository, BoardRepository boardRepository) {
 		this.postRepository = postRepository;
 		this.boardRepository = boardRepository;
 	}
 
-	public List<Post> listAllPostsOnBoard (Long boardId){
+	public List<Post> listAllPostsOnBoard(Long boardId) {
 		Optional<Board> board = boardRepository.findById(boardId);
 
 		return board.map(Board::getPosts).orElse(null);
 	}
 
-	public List<Post> listNewestPostsOnBoard (Long boardId, int numOfNewestPosts){
+	public List<Post> listNewestPostsOnBoard(Long boardId, int numOfNewestPosts) {
 		Optional<Board> board = boardRepository.findById(boardId);
 
 		List<Post> newestPosts = new ArrayList<>();
@@ -41,10 +41,15 @@ public class ContentService {
 			return 0;
 		}));
 
-		return null;
+		for(int i = 0; i < numOfNewestPosts; i++){
+			int finalI = i;
+			board.ifPresent(sortedBoard -> newestPosts.add(sortedBoard.getPosts().get(finalI)));
+		}
+
+		return newestPosts;
 	}
 
-	public Long addPostToBoard (Long boardId, String title, String body, String author){
+	public Long addPostToBoard(Long boardId, String title, String body, String author) {
 		Optional<Board> board = boardRepository.findById(boardId);
 
 		if (board.isPresent()) {
@@ -61,11 +66,11 @@ public class ContentService {
 		return null;
 	}
 
-	public Optional<Post> getPost (Long postId){
+	public Optional<Post> getPost (Long postId) {
 		return postRepository.findById(postId);
 	}
 
-	public void addReplyToPost (Long postId, String body, String author){
+	public void addReplyToPost(Long postId, String body, String author) {
 		Optional<Post> post = postRepository.findById(postId);
 
 		if (post.isPresent()) {

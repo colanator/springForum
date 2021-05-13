@@ -6,7 +6,10 @@ import com.colanator.forum.service.ContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,8 +39,13 @@ public class ForumController {
 
 	@RequestMapping(value = "/board", method = GET)
 	@ResponseBody
-	public ResponseEntity<List<Post>> getPostsOnBoard(@RequestParam Long id) {
-		List<Post> posts = contentService.listAllPostsOnBoard(id);
+	public ResponseEntity<List<Post>> getPostsOnBoard(@RequestParam Long id, @RequestParam int amount) {
+		List<Post> posts;
+		if(amount > 0){
+			posts = contentService.listNewestPostsOnBoard(id, amount);
+		} else {
+			posts = contentService.listAllPostsOnBoard(id);
+		}
 		if(posts != null && !posts.isEmpty()){
 			return ResponseEntity.ok(posts);
 		} else {
@@ -60,6 +68,7 @@ public class ForumController {
 
 	@RequestMapping(value = "/post", method = POST)
 	public ResponseEntity<String> createPost(@RequestBody PostDTO postDto) {
+		final String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
 		ResponseEntity<String> result;
 		Long boardId = postDto.getBoardId();
 		String title = postDto.getTitle();
@@ -68,7 +77,14 @@ public class ForumController {
 
 		Long success = contentService.addPostToBoard(boardId, title, body, author);
 		if (success != null) {
-			result = ResponseEntity.ok(success.toString());
+			URI uri = null;
+			try {
+				uri = new URI(baseUrl + "/post?id=" + success);
+			} catch (URISyntaxException e) {
+				System.out.println(e.getMessage());
+			}
+			assert uri != null;
+			result = ResponseEntity.created(uri).build();
 		} else {
 			result = ResponseEntity.notFound().build();
 		}
