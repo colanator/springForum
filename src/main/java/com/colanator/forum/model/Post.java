@@ -1,83 +1,83 @@
 package com.colanator.forum.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 public class Post {
 
-	public Long getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String title;
+    private String body;
+    private String author;
+    private Timestamp creationDate;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
+    )
+    private List<Reply> replies;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+    protected Post() {
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public Post(String author, String title, String body) {
+        this.author = author;
+        this.title = title;
+        this.body = body;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+        Date date = new Date();
+        long time = date.getTime();
+        this.creationDate = new Timestamp(time);
 
-	public String getBody() {
-		return body;
-	}
+        this.replies = new ArrayList<>();
+    }
 
-	public void setBody(String body) {
-		this.body = body;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getAuthor() {
-		return author;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	private String title;
-	private String body;
-	private String author;
-	private Timestamp creationDate;
-	@OneToMany(
-			cascade = CascadeType.ALL,
-			orphanRemoval = true,
-			fetch = FetchType.EAGER
-	)
-	private List<Reply> replies;
+    public String getBody() {
+        return body;
+    }
 
-	protected Post() {}
+    public void setBody(String body) {
+        this.body = body;
+    }
 
-	public Post(String author, String title, String body) {
-		this.author = author;
-		this.title = title;
-		this.body = body;
+    public String getAuthor() {
+        return author;
+    }
 
-		Date date= new Date();
-		long time = date.getTime();
-		this.creationDate = new Timestamp(time);
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-		this.replies = new ArrayList<>();
-	}
+    public List<Reply> getReplies() {
+        return this.replies;
+    }
 
-	public List<Reply> getReplies() {
-		return this.replies;
-	}
+    public Timestamp getCreationDate() {
+        return this.creationDate;
+    }
 
-	public Timestamp getCreationDate() {
-		return this.creationDate;
-	}
-
-	@Override
-	public String toString() {
-		return String.format(
-				"Post[id=%d, author='%s', title='%s', body='%s', creationDate='%s', replies='%s']",
-				id, author, title, body, creationDate, replies);
-	}
+    @Override
+    public String toString() {
+        return String.format(
+                "Post[id=%d, author='%s', title='%s', body='%s', creationDate='%s', replies='%s']",
+                id, author, title, body, creationDate, replies);
+    }
 }
